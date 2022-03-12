@@ -145,7 +145,6 @@ extension ViewController {
 
 extension ViewController {
   private func bindCollectionView() {
-    collectionView.touchesShouldCancel(in: view)
     Observable
       .of(
         collectionView.rx.didEndDecelerating.asVoid(),
