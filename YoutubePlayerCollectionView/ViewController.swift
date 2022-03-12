@@ -147,12 +147,12 @@ extension ViewController {
   private func bindCollectionView() {
     Observable
       .of(
-        collectionView.rx.didEndDecelerating.asVoid(),
-        collectionView.rx.didEndDragging.asVoid(),
-        collectionView.rx.didEndScrollingAnimation.asVoid()
+        collectionView.rx.willBeginDecelerating.asVoid(),
+        collectionView.rx.willEndDragging.asVoid(),
+        collectionView.rx.tapGesture(configuration: nil).when(.recognized).asVoid(),
+        collectionView.rx.longPressGesture(configuration: nil).when(.recognized).asVoid()
       )
       .merge()
-      .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
         owner.focusCategoryView()
@@ -169,18 +169,16 @@ extension ViewController {
 
     let threshold = headerViewHeight - categoryHeight
 
-    if y < threshold + (categoryHeight / 2), y > threshold {
+    guard y > threshold else { return }
+
+    if y < threshold + (categoryHeight / 2) {
       let newPoint = CGPoint(x: collectionView.contentOffset.x,
                              y: headerViewHeight - categoryHeight)
 
       collectionView.setContentOffset(newPoint, animated: true)
-      return
-    }
-
-    if y >= threshold + (categoryHeight / 2), y > threshold {
+    } else if y >= threshold + (categoryHeight / 2) {
       let newPoint = CGPoint(x: collectionView.contentOffset.x,
                              y: headerViewHeight)
-
       collectionView.setContentOffset(newPoint, animated: true)
     }
   }
