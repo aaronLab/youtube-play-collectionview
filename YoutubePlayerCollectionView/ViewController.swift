@@ -148,7 +148,8 @@ extension ViewController {
     Observable
       .of(
         collectionView.rx.didEndDecelerating.asVoid(),
-        collectionView.rx.didEndDragging.asVoid()
+        collectionView.rx.didEndDragging.asVoid(),
+        collectionView.rx.didScroll.asVoid()
       )
       .merge()
       .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
