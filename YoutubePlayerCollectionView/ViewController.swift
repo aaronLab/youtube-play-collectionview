@@ -223,6 +223,7 @@ extension ViewController {
 
   private func stickCategoryViewToVideoView() {
     categoryToHeader?.deactivate()
+    categoryToHeader = nil // reusable header view might not be able to be released
 
     if categoryToVideo == nil {
       categoryView.snp.makeConstraints {
@@ -301,6 +302,7 @@ extension ViewController: UICollectionViewDataSource {
       return headerVieww
     default:
       assertionFailure("Not supported kind")
+      return UICollectionReusableView()
     }
   }
 }
