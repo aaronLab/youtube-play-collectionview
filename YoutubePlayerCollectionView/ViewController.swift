@@ -207,6 +207,8 @@ extension ViewController {
   }
 
   private func stickCategoryViewToHeaderView() {
+    if categoryToHeader?.isActive == true { return }
+
     guard let headerView = headerView() else { return }
 
     categoryToVideo?.deactivate()
@@ -223,6 +225,8 @@ extension ViewController {
   }
 
   private func stickCategoryViewToVideoView() {
+    if categoryToVideo?.isActive == true { return }
+
     categoryToHeader?.deactivate()
     categoryToHeader = nil // reusable header view might not be able to be released
 
