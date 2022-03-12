@@ -145,11 +145,12 @@ extension ViewController {
 
 extension ViewController {
   private func bindCollectionView() {
+    collectionView.touchesShouldCancel(in: view)
     Observable
       .of(
         collectionView.rx.didEndDecelerating.asVoid(),
         collectionView.rx.didEndDragging.asVoid(),
-        collectionView.rx.didScroll.asVoid()
+        collectionView.rx.didEndScrollingAnimation.asVoid()
       )
       .merge()
       .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
